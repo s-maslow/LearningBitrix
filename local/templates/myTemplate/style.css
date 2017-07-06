@@ -7,7 +7,7 @@ small, strike, strong, sub, sup, tt, var,
 b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
-table, caption, tbody, tfoыot, thead, tr, th, td,
+table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
@@ -30,6 +30,14 @@ body {
 ol, ul {
     list-style: none;
 }
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -42,12 +50,23 @@ html {
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
     display: block;
 }
+body {
+    font: 12px/18px Arial, sans-serif;
+    height: 100%;
+}
+.wrapper {
+    width: 100%;
+    min-width: 1000px;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+}
 
 /* Header
 -----------------------------------------------------------------------------*/
-header {
+.header {
     height: 150px;
-    background: #39d4c7;
+    background: #FFE680;
 }
 
 /* Middle
