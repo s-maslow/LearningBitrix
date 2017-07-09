@@ -13,11 +13,9 @@ IncludeTemplateLangFile(__FILE__);
     <?$APPLICATION->ShowPanel()?>
     <div class="wrapper">
         <header class="header">
-          <?
-            $APPLICATION->IncludeComponent(
-              "myComponents:singin",
-              "",
-              Array()
-            );
-          ?>
+          <ul>
+            <il><a href="index.php"><div class="nav"><h1>Главная</h1></div></a></il>
+            <il><a href="auth.php"><div class="nav"><h1>Вход</h1></div></a></il>
+            <il><a href="registration.php"><div class="nav"><h1>Регистрация</h1></div></a></il>
+          </ul>
         </header>

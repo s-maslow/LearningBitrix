@@ -15,8 +15,6 @@ time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
-    font: inherit;
     vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -64,10 +62,34 @@ body {
 /* Header
 -----------------------------------------------------------------------------*/
 .header {
-    height: 150px;
-    background: #FFE680;
+    height: 40px;
+    background: #39d4c7;
 }
 
+ul {
+  display: flex;
+  justify-content: center;
+    background: #39d4c7;
+}
+
+
+.nav {
+  height: 40px;
+  width: 200px;
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid  #929999;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.nav:hover {
+  background: white;
+  cursor: pointer;
+}
 /* Middle
 -----------------------------------------------------------------------------*/
 .content {
