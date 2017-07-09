@@ -13,5 +13,11 @@ IncludeTemplateLangFile(__FILE__);
     <?$APPLICATION->ShowPanel()?>
     <div class="wrapper">
         <header class="header">
-        
+          <?
+            $APPLICATION->IncludeComponent(
+              "myComponents:singin",
+              "",
+              Array()
+            );
+          ?>
         </header>

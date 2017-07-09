@@ -20,6 +20,31 @@ if (PHP_SAPI != 'cli')
   /** @noinspection PhpIncludeInspection */
   require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 
+  CModule::IncludeModule("iblock");
+
+//-----------------------------------------------------------------------------------------------------
+//Добавление админстративной группы для инфоблока вакансий
+$group = new CGroup;
+$filter = Array(
+    "STRING_ID" => "vacancy_admin"
+);
+$rsGroups = CGroup::GetList( ($by="c_sort"), ($order="desc"), $filter);
+$result = $rsGroups->Fetch();
+if ($result !== false){
+    $vacancy_admin_group_id = $result["ID"];
+}
+else {
+    $arFields = Array(
+        "ACTIVE" => "Y",
+        "C_SORT" => 100,
+        "NAME" => "Администраторы вакансий",
+        "DESCRIPTION" => "Администраторы вакансий",
+        "STRING_ID" => "vacancy_admin"
+    );
+    $vacancy_admin_group_id = $group->Add($arFields);
+    if (strlen($group->LAST_ERROR) > 0) ShowError($group->LAST_ERROR);
+}
+//----------------------------------------------------------------
 
 
 //-------------------------------------------------------------------------------------------------------
@@ -50,7 +75,7 @@ if (PHP_SAPI != 'cli')
 //-------------------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------------------
-//  добавление инфоблока работодатель
+//  добавление тип инфоблока работодатель
     $arFields = Array(
         'ID' => 'employer',
         'SECTIONS'=>'Y',
@@ -84,7 +109,7 @@ if (PHP_SAPI != 'cli')
     "NAME" => 'employer',
     "CODE" => 'qwerty123',
     "IBLOCK_TYPE_ID" => 'employer',
-    "SITE_ID" => Array("en", "de"),
+    "SITE_ID" => 's1',
     "SORT" => 100,
     "DESCRIPTION_TYPE" => 'text',
     "GROUP_ID" => Array("2"=>"D", "3"=>"R")
@@ -105,7 +130,7 @@ if (PHP_SAPI != 'cli')
     "NAME" => 'vacancy',
     "CODE" => 'qwerty12',
     "IBLOCK_TYPE_ID" => 'vacancy',
-    "SITE_ID" => Array("en", "de"),
+    "SITE_ID" => 's1',
     "SORT" => 100,
     "DESCRIPTION_TYPE" => 'text',
     "GROUP_ID" => Array("2"=>"D", "3"=>"R")

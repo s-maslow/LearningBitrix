@@ -1,11 +1,9 @@
 <?
 $arUrlRewrite = array(
 	array(
-		"CONDITION" => "#^/news/#",
+		"CONDITION" => "#^/qwerty/#",
 		"RULE" => "",
-		"ID" => "bitrix:news",
-		"PATH" => "/news/index.php",
+		"PATH" => "/hello.php",
 	),
 );
-
 ?>
