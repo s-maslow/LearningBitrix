@@ -1,9 +1,10 @@
-<?
+<?php
 $arUrlRewrite = array(
-	array(
-		"CONDITION" => "#^/qwerty/#",
-		"RULE" => "",
-		"PATH" => "/hello.php",
-	),
+    array(
+        "CONDITION" => "#^/vacancy/#",
+        "RULE" => "",
+        "PATH" => "/vacancies.php",
+        "ID" => "my:vacancy",
+    ),
 );
 ?>
