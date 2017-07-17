@@ -17,5 +17,6 @@ IncludeTemplateLangFile(__FILE__);
             <il><a class="navA" href="index.php"><div class="nav"><h1>Главная</h1></div></a></il>
             <il><a class="navA" href="auth.php"><div class="nav"><h1>Вход</h1></div></a></il>
             <il><a class="navA" href="registration.php"><div class="nav"><h1>Регистрация</h1></div></a></il>
+            <il><a class="navA" href="vacancy/"><div class="nav"><h1>Вакансии</h1></div></a></il>
           </ul>
         </header>

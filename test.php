@@ -1,0 +1,8 @@
+<html>
+<body>
+  <form>
+    <input type="date">
+  </form>
+</body>
+
+</html>
