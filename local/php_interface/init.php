@@ -1,9 +1,10 @@
-<?
-session_start();
-CModule::AddAutoloadClasses(
-        '', // не указываем имя модуля
+
+<?php
+    session_start();
+    CModule::AddAutoloadClasses(
+        '',
         array(
-           // ключ - имя класса, значение - путь относительно корня сайта к файлу с классом
-                'vacancyAgent' => '/local/classes/Agents/vacancyAgent.php'
+            'vacancyAgent' => '/local/classes/agents/vacancyAgent.php'
         )
-);
+    );
+
