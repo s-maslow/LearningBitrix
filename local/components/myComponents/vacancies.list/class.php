@@ -1,23 +1,33 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 class CVacancyList extends CBitrixComponent {
-    public function executeComponent($property)
-    {
-        global $arResult;
-        CModule::IncludeModule("iblock");
-        $arSort = array(
+
+    private static function prepareSort() {
+        return array(
             "active_from" => "desc",
             "name" => "asc",
         );
-        $arFilter = array(
+    }
+
+    private static function prepareFilter($id) {
+        return array(
             "ACTIVE" => "Y",
-            "IBLOCK_ID" => $this->arParams["IBLOCK_ID"],
+            "IBLOCK_ID" => $id
         );
-        $arNavParams = array(
-            "nPageSize" => $this->arParams["PAGE_SIZE"],
+    }
+
+    private static function chooseProperties() {
+        return array("ID", "IBLOCK_ID", "NAME", "PROPERTY_PAYMENT", "PROPERTY_PAYMENT_UP_TO", "PROPERTY_SPECIAL", "PROPERTY_EMPLOYER");
+    }
+
+    private static function paramsOfNavigation($pageSize) {
+        return array(
+            "nPageSize" => $pageSize,
         );
-        $arSelect = array("ID", "IBLOCK_ID", "NAME", "PROPERTY_PAYMENT", "PROPERTY_PAYMENT_UP_TO", "PROPERTY_SPECIAL", "PROPERTY_EMPLOYER");
-        $listOfElements = CIBlockElement::GetList($arSort, $arFilter, false, $arNavParams, $arSelect);
-        $listOfElements->SetUrlTemplates($this->arParams["DETAIL_PAGE_URL"], "", $this->arParams["LIST_PAGE_URL"]);
+
+    }
+
+    private static function takeVacancyFields($listOfElements) {
+        global $arResult;
         $element = $listOfElements->GetNextElement();
         while($element){
             $item = $element->GetFields();
@@ -42,12 +52,28 @@ class CVacancyList extends CBitrixComponent {
             $arResult["ELEMENTS"][] = $item["ID"];
             $element = $listOfElements->GetNextElement();
         }
-        $arResult["NAV_STRING"] = $listOfElements->GetPageNavStringEx(
+    }
+
+    private static function prepareNavigationString($listOfElements){
+            return $listOfElements->GetPageNavStringEx(
             $navComponentObject,
             "",
             "",
             "Y"
         );
+    }
+
+    public function executeComponent($property) {
+        global $arResult;
+        CModule::IncludeModule("iblock");
+
+        $listOfElements = CIBlockElement::GetList(self::prepareSort(), self::prepareFilter($this->arParams["IBLOCK_ID"]), false, self::paramsOfNavigation($this->arParams["PAGE_SIZE"]), self::chooseProperties());
+        $listOfElements->SetUrlTemplates($this->arParams["DETAIL_PAGE_URL"], "", $this->arParams["LIST_PAGE_URL"]);
+        
+        self::takeVacancyFields($listOfElements);
+
+        $arResult["NAV_STRING"] = self::prepareNavigationString($listOfElements);
+
         $this->includeComponentTemplate();
     }
 }

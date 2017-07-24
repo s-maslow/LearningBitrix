@@ -1,32 +1,33 @@
 <?
 $aMenuLinks = Array(
 	Array(
-		"О компании", 
-		"about/", 
+		"Блог", 
+		SITE_DIR, 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Новости", 
-		"news/", 
+		"Фото", 
+		SITE_DIR."photo/", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
-		"Услуги", 
-		"services/", 
+		"Обо мне", 
+		SITE_DIR."about.php", 
 		Array(), 
 		Array(), 
 		"" 
 	),
 	Array(
 		"Контакты", 
-		"contacts/", 
+		SITE_DIR."contacts.php", 
 		Array(), 
 		Array(), 
 		"" 
-	)
+	),
+
 );
 ?>

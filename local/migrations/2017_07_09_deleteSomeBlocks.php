@@ -25,7 +25,7 @@ if (PHP_SAPI != 'cli')
 //--------------------------------------------------------------------------------------------------
 //удаление лишних инфоблоков
 $DB->StartTransaction();
-if(!CIBlock::Delete(5))
+if(!CIBlock::Delete(4))
 {
   $strWarning .= GetMessage("IBLOCK_DELETE_ERROR");
   $DB->Rollback();
@@ -33,11 +33,4 @@ if(!CIBlock::Delete(5))
 else
   $DB->Commit();
 
-  $DB->StartTransaction();
-  if(!CIBlock::Delete(6))
-  {
-    $strWarning .= GetMessage("IBLOCK_DELETE_ERROR");
-    $DB->Rollback();
-  }
-  else
-    $DB->Commit();
+
