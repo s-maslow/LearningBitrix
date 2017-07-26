@@ -23,7 +23,7 @@ if (PHP_SAPI != 'cli')
 
 //--------------------------------------------------------------------------------
 $DB->StartTransaction();
-if(!CIBlock::Delete(4))
+if(!CIBlock::Delete(5))
 {
   $strWarning .= GetMessage("IBLOCK_DELETE_ERROR");
   $DB->Rollback();
@@ -83,7 +83,7 @@ $arFields = Array(
   "SORT" => "50",
   "CODE" => "employer",
   "PROPERTY_TYPE" => "E",
-  "LINK_IBLOCK_ID" => 2,
+  "LINK_IBLOCK_ID" => 3	,
   "IS_REQUIRED" => "Y",
   "IBLOCK_ID" => $IDvacancy,//номер вашего инфоблока
   "LIST_TYPE" => "L",
