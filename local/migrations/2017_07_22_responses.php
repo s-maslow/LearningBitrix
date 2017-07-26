@@ -25,29 +25,29 @@ if (PHP_SAPI != 'cli')
   //Добавление тип инфоблока Откликов
   //-----------------------------------------------------------------------------
 
-  //   $arFields = Array(
-  //     'ID' => 'responses',
-  //     'SECTIONS'=>'Y',
-  //     'IN_RSS'=>'N',
-  //     'SORT'=>100,
-  //     'LANG'=>Array(
-  //         'en'=>Array(
-  //           'NAME'=>'responses'
-  //         ),
-  //         'ru'=>Array(
-  //           'NAME'=>'отклики'
-  //         )
-  //     )
-  //   );
-  // $obBlocktype = new CIBlockType;
-  // $DB->StartTransaction();
-  // $res = $obBlocktype->Add($arFields);
-  // if (!$res) {
-  //   $DB->Rollback();
-  //   echo 'Error: '.$obBlocktype->LAST_ERROR.'<br>';
-  // }
-  // else
-  //   $DB->Commit();
+     $arFields = Array(
+       'ID' => 'responses',
+       'SECTIONS'=>'Y',
+       'IN_RSS'=>'N',
+       'SORT'=>100,
+       'LANG'=>Array(
+           'en'=>Array(
+             'NAME'=>'responses'
+           ),
+           'ru'=>Array(
+             'NAME'=>'отклики'
+          )
+       )
+     );
+   $obBlocktype = new CIBlockType;
+   $DB->StartTransaction();
+   $res = $obBlocktype->Add($arFields);
+   if (!$res) {
+     $DB->Rollback();
+     echo 'Error: '.$obBlocktype->LAST_ERROR.'<br>';
+   }
+   else
+     $DB->Commit();
 
 //----------------------------------------------------------------------------------
 //Добавление инфоблока отклика на Вакансии
