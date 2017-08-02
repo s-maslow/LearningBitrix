@@ -11,19 +11,18 @@ global $arResult;
         </form>
     </div>
     <!--Items-->
-    <? foreach ($arResult["ITEMS"] as $item): ?>    
+    <? foreach ($arResult["vacancyList"]["ITEMS"] as $item): ?>
         <div class="row">
             <h3><a href="<?=$item["DETAIL_PAGE_URL"]?>"><?=$item["NAME"]?></a></h3>
             <p>Зарплата: от <?=$item["PROPERTIES"]["payment"]["VALUE"]?> - до <?=$item["PROPERTIES"]["payment_up_to"]["VALUE"]?></p>
             <p><?=$item["PROPERTIES"]["SPECIAL"]["NAME"]?>: <?=$item["PROPERTIES"]["SPECIAL"]["VALUE"]?></p>
-            <p><?=$item["PROPERTIES"]["employer"]["NAME"]?>: <?=$item["PROPERTIES"]["employer"]["OBJECT"]["NAME"]?></p>
+            <p><?=$item["PROPERTIES"]["employer"]["NAME"]?>: <?=$item["PROPERTY_EMPLOYER_NAME"]?></p>
         </div>
-
     <? endforeach; ?>
 
     <!--Pagination-->
     <div class="row">
-        <?=$arResult["NAV_STRING"];?>
+        <?=$arResult["vacancyList"]["NAV_STRING"];?>
     </div>
 
 </div>

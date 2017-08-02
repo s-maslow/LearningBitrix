@@ -16,7 +16,7 @@ class CVacancyList extends CBitrixComponent {
     }
 
     private static function chooseProperties() {
-        return array("ID", "IBLOCK_ID", "NAME", "PROPERTY_PAYMENT", "PROPERTY_PAYMENT_UP_TO", "PROPERTY_SPECIAL", "PROPERTY_EMPLOYER");
+        return array("ID", "IBLOCK_ID", "NAME", "PROPERTY_PAYMENT", "PROPERTY_PAYMENT_UP_TO", "PROPERTY_SPECIAL", "PROPERTY_EMPLOYER.NAME");
     }
 
     private static function paramsOfNavigation($pageSize) {
@@ -32,48 +32,33 @@ class CVacancyList extends CBitrixComponent {
         while($element){
             $item = $element->GetFields();
             $item["PROPERTIES"] = $element->GetProperties();
-            foreach ($item["PROPERTIES"] as $key => $property) {
-                if($property["PROPERTY_TYPE"] == "E"){
-                    $sort = array(
-                        "id" => "asc",
-                    );
-                    $filter = array(
-                        "IBLOCK_ID" => $property["LINK_IBLOCK_ID"],
-                        "ID" => $property["VALUE"],
-                    );
-                    $rsElements = CIBlockElement::GetList($sort, $filter);
-                    $rsElement = $rsElements->GetNextElement();
-                    if($rsElement !== false) {
-                        $item["PROPERTIES"][$key]["OBJECT"] = $rsElement->GetFields();
-                    }
-                }
-            }
             $arResult["ITEMS"][] = $item;
             $arResult["ELEMENTS"][] = $item["ID"];
             $element = $listOfElements->GetNextElement();
         }
     }
 
-    private static function prepareNavigationString($listOfElements){
-            return $listOfElements->GetPageNavStringEx(
-            $navComponentObject,
-            "",
-            "",
-            "Y"
-        );
-    }
-
     public function executeComponent($property) {
         global $arResult;
-        CModule::IncludeModule("iblock");
+        $arResult["hello1"] = \Bitrix\Main\ModuleManager::isModuleInstalled("vacancy.news");
+        if(\Bitrix\Main\Loader::IncludeModule("vacancy.news")) {
+            $arResult["hello"] = "qwerty";
+            $vacancy = new vacancyNews("vacancyForUsers");
+            $arResult["vacancyList"] = $vacancy->makeVacancyList(self::prepareFilter($this->arParams["IBLOCK_ID"]),
+                self::prepareSort(),
+                self::chooseProperties(),
+                self::paramsOfNavigation($this->arParams["PAGE_SIZE"]),
+                $this->arParams["DETAIL_PAGE_URL"],
+                $this->arParams["LIST_PAGE_URL"]
+            );
+        }
 
-        $listOfElements = CIBlockElement::GetList(self::prepareSort(), self::prepareFilter($this->arParams["IBLOCK_ID"]), false, self::paramsOfNavigation($this->arParams["PAGE_SIZE"]), self::chooseProperties());
-        $listOfElements->SetUrlTemplates($this->arParams["DETAIL_PAGE_URL"], "", $this->arParams["LIST_PAGE_URL"]);
-        
-        self::takeVacancyFields($listOfElements);
-
-        $arResult["NAV_STRING"] = self::prepareNavigationString($listOfElements);
-
+//        CModule::IncludeModule("iblock");
+//
+//        $listOfElements = CIBlockElement::GetList(self::prepareSort(), self::prepareFilter($this->arParams["IBLOCK_ID"]), false, self::paramsOfNavigation($this->arParams["PAGE_SIZE"]), self::chooseProperties());
+//        $listOfElements->SetUrlTemplates($this->arParams["DETAIL_PAGE_URL"], "", $this->arParams["LIST_PAGE_URL"]);
+//
+//        self::takeVacancyFields($listOfElements);
         $this->includeComponentTemplate();
     }
 }

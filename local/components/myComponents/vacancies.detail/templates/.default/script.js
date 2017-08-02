@@ -1,20 +1,14 @@
+
 $(function() {
 
     function addUser() {
-        if($("#textOfrespond").val().toString().length > 2000)
-        {
-            $(".exceptions").empty();
-            $(".exceptions").append("Длина вашего сообщения привышает 2000 символов.");
-        }
-        else if($("textarea").val().toString().length == 0)
-        {
+        if($("#textOfrespond").val().toString().length == 0) {
             $(".exceptions").empty();
             $(".exceptions").append("Введите сообщение");
         }
         else
         {
-            $.ajax(
-                {
+            $.ajax({
                     url: "/ajax.handler.php",
                     type: "POST",
                     dataType: "html",
@@ -42,8 +36,7 @@ $(function() {
                     error: function(xhr, status, error) {
                         alert(xhr.responseText + '|\n' + status + '|\n' +error);
                     }
-
-                });
+            });
 
         }
     }
@@ -51,10 +44,11 @@ $(function() {
   $( "#dialog" ).dialog({
       autoOpen: false,
       dialogClass: "resp",
+      width: 400,
+      modal: true,
       buttons: {
         "Send": function() {
             addUser();
-           // $( this ).dialog( "close" );
         },
         Cancel: function() {
             $( this ).dialog( "close" );
@@ -65,7 +59,11 @@ $(function() {
     $( "#opener" ).on( "click", function() {
       $( "#dialog" ).dialog( "open" );
     });
-    $( "#hide" ).on( "click", function() {
 
+    $("#textOfrespond").keyup(function() {
+        if (this.value.length > 2000)
+            this.value = this.value.substr(0, 2000);
+        $(".exceptions").empty();
+        $(".exceptions").append("Текст сообщения не должен превышать длину в 2000 симбволов");
     });
 } );

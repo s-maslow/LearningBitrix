@@ -23,7 +23,7 @@ if (PHP_SAPI != 'cli')
 
 //--------------------------------------------------------------------------------
 $DB->StartTransaction();
-if(!CIBlock::Delete(5))
+if(!CIBlock::Delete(4))
 {
   $strWarning .= GetMessage("IBLOCK_DELETE_ERROR");
   $DB->Rollback();

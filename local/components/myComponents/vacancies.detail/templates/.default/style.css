@@ -1,6 +1,15 @@
 .resp {
 	display: block;
 	border: 4px double black;
-	width: 400px;
 	background: white;
+}
+
+#textOfrespond {
+	margin: 10px;
+	resize: none;
+	width: 370px;
+}
+
+.pay {
+	width: 150px;
 }

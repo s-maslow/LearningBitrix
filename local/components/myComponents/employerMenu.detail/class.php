@@ -34,10 +34,7 @@ class CVacancyDetail extends CBitrixComponent {
         );
     }
 
-    
-
-    public function executeComponent($rsVacancy)
-    {
+    public function executeComponent($rsVacancy) {
         global $arResult;
         CModule::IncludeModule("iblock");
         $arSort = array(
@@ -64,22 +61,6 @@ class CVacancyDetail extends CBitrixComponent {
         if($vacancy !== false) {
             $item = $vacancy->GetFields();
             $item["PROPERTIES"] = $vacancy->GetProperties();
-            foreach ($item["PROPERTIES"] as $key => $property) {
-                if($property["PROPERTY_TYPE"] == "E"){
-                    $sort = array(
-                        "id" => "asc",
-                    );
-                    $filter = array(
-                        "IBLOCK_ID" => $property["LINK_IBLOCK_ID"],
-                        "ID" => $property["VALUE"],
-                    );
-                    $rsElements = CIBlockElement::GetList($sort, $filter);
-                    $rsElement = $rsElements->GetNextElement();
-                    if($rsElement !== false) {
-                        $item["PROPERTIES"][$key]["OBJECT"] = $rsElement->GetFields();
-                    }
-                }
-            }
             $arResult["ITEM"] = $item;
         }
         else {
