@@ -11,8 +11,10 @@ global $arResult;
         </form>
     </div>
     <!--Items-->
-    <? foreach ($arResult["vacancyList"]["ITEMS"] as $item): ?>
+
+    <? foreach ($arResult["vacancyList"]["LIST"]["ITEMS"] as $item): ?>
         <div class="row">
+            <?var_dump($item)?>
             <h3><a href="<?=$item["DETAIL_PAGE_URL"]?>"><?=$item["NAME"]?></a></h3>
             <p>Зарплата: от <?=$item["PROPERTIES"]["payment"]["VALUE"]?> - до <?=$item["PROPERTIES"]["payment_up_to"]["VALUE"]?></p>
             <p><?=$item["PROPERTIES"]["SPECIAL"]["NAME"]?>: <?=$item["PROPERTIES"]["SPECIAL"]["VALUE"]?></p>

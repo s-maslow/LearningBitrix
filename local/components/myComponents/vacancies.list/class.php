@@ -26,39 +26,14 @@ class CVacancyList extends CBitrixComponent {
 
     }
 
-    private static function takeVacancyFields($listOfElements) {
-        global $arResult;
-        $element = $listOfElements->GetNextElement();
-        while($element){
-            $item = $element->GetFields();
-            $item["PROPERTIES"] = $element->GetProperties();
-            $arResult["ITEMS"][] = $item;
-            $arResult["ELEMENTS"][] = $item["ID"];
-            $element = $listOfElements->GetNextElement();
-        }
-    }
-
     public function executeComponent($property) {
         global $arResult;
-        $arResult["hello1"] = \Bitrix\Main\ModuleManager::isModuleInstalled("vacancy.news");
         if(\Bitrix\Main\Loader::IncludeModule("vacancy.news")) {
-            $arResult["hello"] = "qwerty";
             $vacancy = new vacancyNews("vacancyForUsers");
-            $arResult["vacancyList"] = $vacancy->makeVacancyList(self::prepareFilter($this->arParams["IBLOCK_ID"]),
-                self::prepareSort(),
-                self::chooseProperties(),
-                self::paramsOfNavigation($this->arParams["PAGE_SIZE"]),
-                $this->arParams["DETAIL_PAGE_URL"],
-                $this->arParams["LIST_PAGE_URL"]
-            );
-        }
+            $arResult["vacancyList"] = $vacancy->makeVacancyList(self::prepareFilter($this->arParams["IBLOCK_ID"]), self::prepareSort(), self::chooseProperties(), self::paramsOfNavigation($this->arParams["PAGE_SIZE"]), $this->arParams["DETAIL_PAGE_URL"], $this->arParams["LIST_PAGE_URL"]);
+            $employers = new employers($arResult["vacancyList"]["LIST"]["ITEMS"]["LINK_IBLOCK_ID"]);
 
-//        CModule::IncludeModule("iblock");
-//
-//        $listOfElements = CIBlockElement::GetList(self::prepareSort(), self::prepareFilter($this->arParams["IBLOCK_ID"]), false, self::paramsOfNavigation($this->arParams["PAGE_SIZE"]), self::chooseProperties());
-//        $listOfElements->SetUrlTemplates($this->arParams["DETAIL_PAGE_URL"], "", $this->arParams["LIST_PAGE_URL"]);
-//
-//        self::takeVacancyFields($listOfElements);
+        }
         $this->includeComponentTemplate();
     }
 }

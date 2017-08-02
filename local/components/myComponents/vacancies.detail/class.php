@@ -31,17 +31,9 @@ class CVacancyDetail extends CBitrixComponent {
 
     public function executeComponent($rsVacancy) {
         global $arResult;
-        CModule::IncludeModule("iblock");
-        $rsVacancy = CIBlockElement::GetList(self::prepareSort(), self::prepareFilters($this->arParams["ELEMENT_ID"], $this->arParams["IBLOCK_ID"], $this->arParams["ELEMENT_ID"]), false, false, self::chooseProperties());
-        $rsVacancy->SetUrlTemplates($this->arParams["DETAIL_PAGE_URL"], "", $this->arParams["LIST_PAGE_URL"]);
-        $vacancy = $rsVacancy->GetNextElement();
-        if($vacancy !== false) {
-            $item = $vacancy->GetFields();
-            $item["PROPERTIES"] = $vacancy->GetProperties();
-           $arResult["ITEM"] = $item;
-        }
-        else {
-            header("Location: /404.php");
+        if(\Bitrix\Main\Loader::IncludeModule("vacancy.news")) {
+            $someVacancy = new vacancyNews("DetailOfVacancy");
+            $arResult["DETAIL_PAGE"] = $someVacancy->makeDetailVacancy(self::prepareSort(), self::prepareFilters($this->arParams["ELEMENT_ID"], $this->arParams["IBLOCK_ID"], $this->arParams["ELEMENT_ID"]), self::chooseProperties(), $this->arParams["DETAIL_PAGE_URL"], $this->arParams["LIST_PAGE_URL"]);
         }
         $this->IncludeComponentTemplate();
     }
