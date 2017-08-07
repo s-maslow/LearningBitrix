@@ -1,11 +1,19 @@
 <?php
-class employers {
+
+namespace Maslow\Vacancy;
+
+class Employer {
 
     public $listOfEmployers = array();
 
+    public static function test()
+    {
+        echo __CLASS__;die();
+    }
+
     public function __construct($iblockId) {
-        CModule::IncludeModule("iblock");
-        $list = CIBlockElement::GetList(array(
+        \CModule::IncludeModule("iblock");
+        $list = \CIBlockElement::GetList(array(
             "active_from" => "desc",
             "name" => "asc",
         ), array(

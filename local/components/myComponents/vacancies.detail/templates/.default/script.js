@@ -9,32 +9,33 @@ $(function() {
         else
         {
             $.ajax({
-                    url: "/ajax.handler.php",
+                    url: "/ajax/response.php",
                     type: "POST",
                     dataType: "html",
-                    data:
-                        {
-                            "PAGE": "FORM",
-                            "vacancyID":  $(".main").attr("id"),
-                            "textOfrespond": $("#textOfrespond").val(),
-                            "paymentFrom": $("#payFrom").val(),
-                            "paymentTo": $("#payTo").val()
-                        },
-                    success: function(data)
-                    {
+                    data: {
+                        "PAGE": "FORM",
+                        "vacancyID":  $(".main").attr("id"),
+                        "textOfrespond": $("#textOfrespond").val(),
+                        "paymentFrom": $("#payFrom").val(),
+                        "paymentTo": $("#payTo").val()
+                    },
+                    success: function(data) {
 
-                        if(data.length == 0)
-                        {
+                        if(data.length == 0) {
                             alert("Произошла ошибка при добавлении.");
                             location.reload();
                         }
-                        else
-                        {
-                            $("#dialog").dialog("close");
+                        else {
+                            $("#responseVacancy").empty();
+                            $("#responseVacancy").append("Вы уже откликнутлись");
+                            $("#responseVacancy").attr('disabled', true);
+                            $(".response").append("Вы успешно откликнутлись на вакансию!");
+                            dialog.dialog("close");
                         }
                     },
                     error: function(xhr, status, error) {
-                        alert(xhr.responseText + '|\n' + status + '|\n' +error);
+                        alert("fuck");
+                        alert(status + '|\n' +error);
                     }
             });
 
@@ -61,9 +62,10 @@ $(function() {
     });
 
     $("#textOfrespond").keyup(function() {
-        if (this.value.length > 2000)
+        if (this.value.length > 2000) {
             this.value = this.value.substr(0, 2000);
-        $(".exceptions").empty();
-        $(".exceptions").append("Текст сообщения не должен превышать длину в 2000 симбволов");
+            $(".exceptions").empty();
+            $(".exceptions").append("Текст сообщения не должен превышать длину в 2000 симбволов");
+        }
     });
 } );

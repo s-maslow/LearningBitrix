@@ -1,4 +1,8 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+
+use Maslow\Vacancy\Vacancy;
+use Maslow\Vacancy\ResponsesTable;
+
 class CVacancyDetail extends CBitrixComponent {
 
     private static function chooseProperties() {
@@ -29,11 +33,30 @@ class CVacancyDetail extends CBitrixComponent {
         return $arFilter;
     }
 
+
+    private function isRespond() {
+        global $USER;
+        if ($USER->GetId()) {
+            $response = ResponsesTable::getList(array(
+                'filter' => array(
+                    "VACANCY" => $this->arParams["ELEMENT_ID"],
+                    "USER" => $USER->GetId()
+                )
+            ))->fetchAll();
+            if (empty($response)) {
+                return "Y";
+            } else {
+                return "N";
+            }
+        }
+    }
+
     public function executeComponent($rsVacancy) {
-        global $arResult;
-        if(\Bitrix\Main\Loader::IncludeModule("vacancy.news")) {
-            $someVacancy = new vacancyNews("DetailOfVacancy");
-            $arResult["DETAIL_PAGE"] = $someVacancy->makeDetailVacancy(self::prepareSort(), self::prepareFilters($this->arParams["ELEMENT_ID"], $this->arParams["IBLOCK_ID"], $this->arParams["ELEMENT_ID"]), self::chooseProperties(), $this->arParams["DETAIL_PAGE_URL"], $this->arParams["LIST_PAGE_URL"]);
+        if(\Bitrix\Main\Loader::IncludeModule("maslow.vacancy")) {
+            $someVacancy = new Vacancy("DetailOfVacancy");
+            $this->arResult["DETAIL_PAGE"] = $someVacancy->makeDetailVacancy(self::prepareSort(), self::prepareFilters($this->arParams["ELEMENT_ID"], $this->arParams["IBLOCK_ID"], $this->arParams["ELEMENT_ID"]), self::chooseProperties(), $this->arParams["DETAIL_PAGE_URL"], $this->arParams["LIST_PAGE_URL"]);
+            //var_dump($this->arResult["DETAIL_PAGE"]);
+            $this->arResult["isRespond"] = $this->isRespond();
         }
         $this->IncludeComponentTemplate();
     }

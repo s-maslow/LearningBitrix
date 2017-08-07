@@ -1,70 +1,66 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+
+use Maslow\Vacancy\ResponsesTable;
+use Maslow\Vacancy\Vacancy;
+
 class CVacancyDetail extends CBitrixComponent {
 
-    private static function getRespondList() {
-        global $arResult;
-        $sort = array(
+    private static function getUserEmail(&$listOfRespond) {
+        foreach ($listOfRespond as &$item) {
+            $temp = $item["USER"];
+            $item["USER"] = array(
+                "ID" => $temp,
+                "EMAIL" => ""
+            );
+            $user = CUser::GetByID($item['USER'])->Fetch();
+            $item["USER"]["EMAIL"] = $user["EMAIL"];
+        }
+        unset($item);
+    }
+
+    private function getRespondList($vacancyID) {
+        $result = ResponsesTable::getList(array(
+            'filter' => array(
+                "VACANCY" => $vacancyID,
+            )
+        ))->fetchAll();
+        self::getUserEmail($result);
+        return $result;
+    }
+
+    private static function chooseProperties() {
+        return array("ID", "IBLOCK_ID", "NAME", "PROPERTY_PAYMENT", "PROPERTY_PAYMENT_UP_TO", "PROPERTY_SPECIAL", "PROPERTY_EMPLOYER.NAME", "PROPERTY_EMPLOYER.PROPERTY_EMAIL", "PROPERTY_EMPLOYER.PROPERTY_ADRES", "PROPERTY_EMPLOYER.PROPERTY_NUMBER");
+    }
+
+    private static function prepareSort() {
+        return array(
             "active_from" => "desc",
             "name" => "asc",
-        );
-        $filter = array(
-            "ACTIVE" => "Y",
-            "IBLOCK_ID" => 7
-        );
-        $select = array("ID", "IBLOCK_ID", "NAME", "PROPERTY_textOfRespond", "PROPERTY_userId", "PROPERTY_vacancyId", "PROPERTY_paymentFrom", "PROPERTY_paymentTo");
-        $navPage = array(
-            "nPageSize" => 10,
-        );
-
-        $listOfRespond = CIBlockElement::GetList($sort, $filter, false, $navPage, $select);
-
-        $element = $listOfRespond->GetNextElement();
-        while($element){
-            $item = $element->GetFields();
-            $item["PROPERTIES"] = $element->GetProperties();
-            $arResult["RESPOND_ITEMS"][] = $item;
-            $element = $listOfRespond->GetNextElement();
-        }
-
-        $arResult["RESPOND_NAV_STRING"] = $listOfRespond->GetPageNavStringEx(
-            $navComponentObject,
-            "",
-            "",
-            "Y"
         );
     }
 
-    public function executeComponent($rsVacancy) {
-        global $arResult;
-        CModule::IncludeModule("iblock");
-        $arSort = array(
-            "active_from" => "desc",
-            "name" => "asc",
-        );
-        if(is_numeric($this->arParams["ELEMENT_ID"])) {
+    private  static function prepareFilters($id, $iBlockID, $elementID) {
+        if(is_numeric($id)) {
             $arFilter = array(
                 "ACTIVE" => "Y",
-                "IBLOCK_ID" => $this->arParams["IBLOCK_ID"],
-                "ID" => $this->arParams["ELEMENT_ID"],
+                "IBLOCK_ID" => $iBlockID,
+                "ID" => $elementID,
             );
         } else {
             $arFilter = array(
                 "ACTIVE" => "Y",
-                "IBLOCK_ID" => $this->arParams["IBLOCK_ID"],
-                "CODE" => $this->arParams["ELEMENT_ID"],
+                "IBLOCK_ID" => $iBlockID,
+                "CODE" => $elementID,
             );
         }
-        $rsVacancy = CIBlockElement::GetList($arSort, $arFilter);
-        self::getRespondList();
-        $rsVacancy->SetUrlTemplates($this->arParams["DETAIL_PAGE_URL"], "", $this->arParams["LIST_PAGE_URL"]);
-        $vacancy = $rsVacancy->GetNextElement();
-        if($vacancy !== false) {
-            $item = $vacancy->GetFields();
-            $item["PROPERTIES"] = $vacancy->GetProperties();
-            $arResult["ITEM"] = $item;
-        }
-        else {
-            header("Location: /404.php");
+        return $arFilter;
+    }
+
+    public function executeComponent($rsVacancy) {
+        if(\Bitrix\Main\Loader::IncludeModule("maslow.vacancy")) {
+            $someVacancy = new Vacancy("DetailOfVacancy");
+            $this->arResult["DETAIL_PAGE"] = $someVacancy->makeDetailVacancy(self::prepareSort(), self::prepareFilters($this->arParams["ELEMENT_ID"], $this->arParams["IBLOCK_ID"], $this->arParams["ELEMENT_ID"]), self::chooseProperties(), $this->arParams["DETAIL_PAGE_URL"], $this->arParams["LIST_PAGE_URL"]);
+            $this->arResult["responses"] = $this->getRespondList($this->arParams["ELEMENT_ID"]);
         }
         $this->IncludeComponentTemplate();
     }

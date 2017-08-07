@@ -1,10 +1,7 @@
-
 <?php
-    session_start();
-    CModule::AddAutoloadClasses(
-        '',
-        array(
-            'vacancyAgent' => '/local/classes/agents/vacancyAgent.php'
-        )
-    );
+
+if (!\Bitrix\Main\Loader::IncludeModule("maslow.vacancy")) {
+    echo "trouble trouble!!!";
+}
+
 

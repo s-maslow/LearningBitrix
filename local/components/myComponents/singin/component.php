@@ -9,10 +9,9 @@
             }
         }
     }
-?>
 
-<? if(!$USER->IsAuthorized()): ?>
+    if(isset($_POST["logout"]))
+        $USER->Logout();
+?>
     <? $this->IncludeComponentTemplate(); ?>
-<? else: ?>
-    <h3>Вы уже авторизованы</h3>
-<? endif; ?>
+

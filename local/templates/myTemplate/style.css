@@ -62,7 +62,7 @@ body {
 /* Header
 -----------------------------------------------------------------------------*/
 .header {
-    height: 40px;
+    height: 30px;
     background: #39d4c7;
 }
 
@@ -74,8 +74,8 @@ ul {
 
 
 .nav {
-  height: 40px;
-  width: 200px;
+  height: 30px;
+  width: 250px;
   display: flex;
   justify-content: space-around;
   border: 1px solid  #929999;

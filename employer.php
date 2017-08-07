@@ -9,7 +9,7 @@ $APPLICATION->IncludeComponent(
     ".default",
     Array(
         "SEF_FOLDER" => "/employermenu/",
-        "IBLOCK_ID" => "6",
+        "IBLOCK_ID" => "5",
         "DETAIL_PAGE_URL" => "/employermenu/#ELEMENT_ID#/",
         "LIST_PAGE_URL" => "/employermenu/",
     )

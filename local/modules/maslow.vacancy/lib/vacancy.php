@@ -1,5 +1,8 @@
 <?php
-class vacancyNews {
+
+namespace Maslow\Vacancy;
+
+class Vacancy {
 
     public $result = array();
     public $name;
@@ -9,11 +12,11 @@ class vacancyNews {
     }
 
     public function makeVacancyList($filters, $sort, $properties, $nav, $detailPageUrl, $listPageUrl) {
-        CModule::IncludeModule("iblock");
-        $listOfElements = CIBlockElement::GetList($sort, $filters, false, $nav, $properties);
+        \CModule::IncludeModule("iblock");
+        $listOfElements = \CIBlockElement::GetList($sort, $filters, false, $nav, $properties);
         $listOfElements->SetUrlTemplates($detailPageUrl, "", $listPageUrl);
         $this->getVacancyFields($listOfElements);
-        $this->result["LIST"]["NAV_STRING"] = $listOfElements->GetPageNavStringEx(
+        $this->result["NAV_STRING"] = $listOfElements->GetPageNavStringEx(
             $navComponentObject,
             "",
             "",
@@ -36,11 +39,12 @@ class vacancyNews {
     }
 
     public function makeDetailVacancy($sort, $filters, $properties, $detailPageUrl, $listPageUrl) {
-        CModule::IncludeModule("iblock");
-        $rsVacancy = CIBlockElement::GetList($sort, $filters, false, false, $properties);
+        \CModule::IncludeModule("iblock");
+        $rsVacancy = \CIBlockElement::GetList($sort, $filters, false, false, $properties);
         $rsVacancy->SetUrlTemplates($detailPageUrl, "", $listPageUrl);
         $this->result["ITEM"] = self::getDetailPageFields($rsVacancy);
         return $this->result;
+
     }
 
     private static function getDetailPageFields($list) {

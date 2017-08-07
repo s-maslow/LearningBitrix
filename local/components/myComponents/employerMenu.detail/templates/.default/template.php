@@ -1,14 +1,16 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-global $arResult;
-
 ?>
 <div class="container">
     <div class="row">
-        <h2><?=$arResult["ITEM"]["NAME"]?></h2>
-        <p>Зарплата: от <?=$arResult["ITEM"]["PROPERTIES"]["payment"]["VALUE"]?> - до <?=$arResult["ITEM"]["PROPERTIES"]["payment_up_to"]["VALUE"]?></p>
-        <p><?=$arResult["ITEM"]["PROPERTIES"]["SPECIAL"]["NAME"]?>: <?=$arResult["ITEM"]["PROPERTIES"]["SPECIAL"]["VALUE"]?></p>
-        <p><?=$arResult["ITEM"]["PROPERTIES"]["deactivateTime"]["NAME"]?>: <?=$arResult["ITEM"]["PROPERTIES"]["deactivateTime"]["VALUE"]?></p>
-        <p><a href="<?=$arResult["ITEM"]["LIST_PAGE_URL"]?>">Вернутся к списку</a></p>
+            <h2><?=$arResult["DETAIL_PAGE"]["ITEM"]["NAME"]?></h2>
+            <p>Зарплата: от <?=$arResult["DETAIL_PAGE"]["ITEM"]["PROPERTIES"]["payment"]["VALUE"]?> - до <?=$arResult["DETAIL_PAGE"]["ITEM"]["PROPERTIES"]["payment_up_to"]["VALUE"]?></p>
+            <p>Специальность: <?=$arResult["DETAIL_PAGE"]["ITEM"]["PROPERTIES"]["SPECIAL"]["VALUE"]?></p>
+            <p>Работодатель: <?=$arResult["DETAIL_PAGE"]["ITEM"]["PROPERTY_EMPLOYER_NAME"]?></p>
+            <p>E-mail: <?=$arResult["DETAIL_PAGE"]["ITEM"]["PROPERTY_EMPLOYER_PROPERTY_EMAIL_VALUE"]?></p>
+            <p>Адрес: <?=$arResult["DETAIL_PAGE"]["ITEM"]["PROPERTY_EMPLOYER_PROPERTY_ADRES_VALUE"]?></p>
+            <p>Телефон: <?=$arResult["DETAIL_PAGE"]["ITEM"]["PROPERTY_EMPLOYER_PROPERTY_NUMBER_VALUE"]?></p>
+            <p>Действует до: <?=$arResult["DETAIL_PAGE"]["ITEM"]["PROPERTIES"]["deactivateTime"]["VALUE"]?></p>
+            <p><a href="<?=$arResult["DETAIL_PAGE"]["ITEM"]["LIST_PAGE_URL"]?>">Вернутся к списку</a></p>
     </div>
     <hr>
     <h2>Отклики:</h2>
@@ -20,17 +22,16 @@ global $arResult;
 
         </form>
     </div>
-
-    <? foreach ($arResult["RESPOND_ITEMS"] as $item): ?>
-        <div class="row">
-            <h3><a href="<?=$item["DETAIL_PAGE_URL"]?>"><?=$item["NAME"]?></a></h3>
-            <p>Зарплата: от <?=$item["PROPERTIES"]["payment"]["VALUE"]?> - до <?=$item["PROPERTIES"]["payment_up_to"]["VALUE"]?></p>
-            <p><?=$item["PROPERTIES"]["textOfRespond"]["VALUE"]?></p>
-            <p><?=$item["PROPERTIES"]["employer"]["NAME"]?>: <?=$item["PROPERTIES"]["employer"]["OBJECT"]["NAME"]?></p>
-        </div>
+    <table>
+        <tr>
+            <th>Пользователь</th>
+            <th>Сопроводительное письмо</th>
+        </tr>
+    <? foreach ($arResult["responses"] as $item): ?>
+        <tr>
+            <td><?=$item["USER"]["EMAIL"]?></td>
+            <td><?=$item["COVERING_LETTER"]?></td>
+        </tr>
     <? endforeach; ?>
-
-    <div class="row">
-        <?=$arResult["RESPOND_NAV_STRING"];?>
-    </div>
+    </table>
 </div>

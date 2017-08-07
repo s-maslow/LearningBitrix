@@ -1,6 +1,4 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-global $arResult;
-
 ?>
 <div class="container">
     <div class="row">
@@ -29,8 +27,11 @@ global $arResult;
                         До: <input class="pay" type="text" name="paymentTo" id="payTo"><br>
                     </form> 
                 </div>
-
-                <button id="opener">Откликнуться на вакансию</button>
+                    <? if($arResult["isRespond"] === "Y"): ?>
+                         <button id="opener">Откликнуться на вакансию</button>
+                    <?elseif($arResult["isRespond"] === "N"):?>
+                         <button id='responseVacancy' disabled>Вы уже откликнулись</button>
+                    <?endif;?>
                 <div class = "response"></div>
             <?
             }
